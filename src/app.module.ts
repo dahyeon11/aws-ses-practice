@@ -13,9 +13,17 @@ import * as path from 'path'
     MailerModule.forRootAsync({
 			useFactory: (): object => {
 				return {
-					transport: process.env.EMAIL_ADMIN_AUTH,
+					transport: {
+            host: process.env.SMTP_ENDPOINT,
+            port: 25,
+            secure: false,
+            auth: {
+              user: process.env.SMTP_ID,
+              pass: process.env.SMTP_PWD,
+            }
+          },
 					defaults: {
-						from: process.env.EMAIL_ADMIN_SENDERINFO,
+						from: 'contact@dahyeon.us',
 					},
 					template: {
 						dir: path.join(__dirname, '/templates/'),

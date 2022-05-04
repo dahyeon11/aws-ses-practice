@@ -1,26 +1,22 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateTestDto } from './dto/create-test.dto';
 import { UpdateTestDto } from './dto/update-test.dto';
+import { MailerService } from '../mailer/mailer.service';
 
 @Injectable()
 export class TestService {
-  create(createTestDto: CreateTestDto) {
-    return 'This action adds a new test';
+  constructor(
+    private readonly mailerService: MailerService,
+  ) {}
+
+  async runType1(dto) {
+    if(!dto.email) {
+      throw new BadRequestException('body에 email 값이 존재해야 합니다.')
+    } else {
+      const newMail = await this.mailerService.sendTest(dto.email, '테스트 메일입니다', 'signup.ejs')
+      return newMail
+    }
+
   }
 
-  findAll() {
-    return `This action returns all test`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} test`;
-  }
-
-  update(id: number, updateTestDto: UpdateTestDto) {
-    return `This action updates a #${id} test`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} test`;
-  }
 }

@@ -7,28 +7,9 @@ import { UpdateTestDto } from './dto/update-test.dto';
 export class TestController {
   constructor(private readonly testService: TestService) {}
 
-  @Post()
-  create(@Body() createTestDto: CreateTestDto) {
-    return this.testService.create(createTestDto);
+  @Post('1')
+  runType1(@Body() createTestDto: CreateTestDto) {
+    return this.testService.runType1(createTestDto)
   }
 
-  @Get()
-  findAll() {
-    return this.testService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.testService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTestDto: UpdateTestDto) {
-    return this.testService.update(+id, updateTestDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.testService.remove(+id);
-  }
 }
